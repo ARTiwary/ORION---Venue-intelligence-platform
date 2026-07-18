@@ -20,19 +20,27 @@ API keys server-side in `.env`, and a frontend that talks only to that server
 
 ```
 orion-prototype/
-├── server.js           Express app: routing, security middleware, error handling
+├── server.js            thin entrypoint: reads .env, calls createApp(), starts listening
 ├── lib/
-│   ├── providers.js     Groq/Cohere network calls, timeouts, no error leakage
-│   ├── validate.js      input validation — the security boundary
-│   └── prompts.js       system prompts, kept out of route handlers
-├── test/                unit tests (node --test, no extra dependency)
+│   ├── app.js            createApp() factory — all routes & middleware, fully testable
+│   ├── providers.js      Groq/Cohere network calls, timeouts, no error leakage
+│   ├── validate.js       input validation — the security boundary
+│   └── prompts.js        system prompts, kept out of route handlers
+├── scripts/
+│   └── generate-config.js   build step: writes public/config.js from API_BASE_URL
+├── test/                 28 tests (node --test, no extra dependency)
+│   ├── app.test.js         integration tests against the real Express app
+│   ├── providers.test.js   model-output parsing
+│   └── validate.test.js    validation boundary
 ├── package.json
+├── vercel.json           tells Vercel to run the build step and serve public/
 ├── .env
 ├── public/
 │   ├── index.html
 │   ├── style.css
-│   └── app.js           calls /api/* — never touches API keys directly
-├── JUDGING_CRITERIA.md  how this build addresses each rubric item
+│   ├── config.js         default (same-origin); overwritten at build time on Vercel
+│   └── app.js            calls /api/* — never touches API keys directly
+├── JUDGING_CRITERIA.md   how this build addresses each rubric item
 └── README.md
 ```
 
@@ -44,10 +52,9 @@ npm install
 cp .env
 ```
 
-
 ```
-GROQ_API_KEY=gsk_your_real_key
-COHERE_API_KEY=your_real_key
+GROQ_API_KEY=key
+COHERE_API_KEY=key
 ```
 
 Run it:
@@ -70,6 +77,30 @@ For auto-restart on file changes during development:
 ```bash
 npm run dev
 ```
+
+## Deploying frontend and backend separately (e.g. Vercel + Render)
+
+If you deploy the backend on Render and the frontend on Vercel as two
+separate services, the frontend needs to know the backend's URL. That value
+is passed as an **environment variable**, not hardcoded in a file:
+
+1. In your **Vercel** project → Settings → Environment Variables, add:
+   ```
+   API_BASE_URL=https://your-backend.onrender.com
+   ```
+   (no trailing slash)
+2. Vercel runs `npm run build` on every deploy, which runs
+   `scripts/generate-config.js` — that script reads `API_BASE_URL` and writes
+   it into `public/config.js`, which the browser loads before `app.js`.
+3. In your **Render** service → Environment, add the matching CORS allowlist
+   entry so the backend accepts requests from your Vercel domain:
+   ```
+   ALLOWED_ORIGIN=https://your-frontend.vercel.app
+   ```
+
+If you're running everything from one server (`npm start`, or a single
+Render service serving both), you don't need `API_BASE_URL` at all — leave
+it unset and the frontend calls the API on the same origin automatically.
 
 ## Why keys are server-side, not in the browser
 

@@ -1,27 +1,34 @@
 # Judging criteria — how ORION addresses each
 
 ## Code quality
-- Clear separation of concerns: `server.js` only wires routes; provider calls live in `lib/providers.js`, input rules in `lib/validate.js`, prompts in `lib/prompts.js`.
-- Centralized error handling (one Express error middleware) instead of duplicated try/catch boilerplate per route.
-- Consistent naming, small single-purpose functions, no dead code or leftover hackathon branding in source.
+- `server.js` is a thin entrypoint (env parsing + `app.listen`); all routing and middleware logic lives in `lib/app.js` as a `createApp(config)` factory — dependency-injectable, no hidden reliance on `process.env` inside the app logic itself.
+- Repeated `try/catch/next` boilerplate across four routes was replaced with a single `asyncRoute()` wrapper.
+- Provider calls (`lib/providers.js`), validation (`lib/validate.js`), and prompts (`lib/prompts.js`) are each isolated in their own module with a single responsibility.
+- `PORT` is validated at startup and the process exits with a clear message on a bad value, instead of failing silently or crashing deep inside Express.
+- JSDoc comments on the app factory and its config shape document the public surface without needing a separate API doc.
 
 ## Security
 - **Provider keys never leave the server.** They're read from `.env`, used only inside `lib/providers.js`, and are never sent to the browser or logged.
-- **Input validation is a hard boundary, not a suggestion.** Every field is validated in `lib/validate.js` before it reaches a prompt or a calculation — free-text is length-capped, language and emission-factor fields are whitelisted against a closed set, not accepted as arbitrary numbers/strings.
-- **CORS is closed by default** (`origin: false`) since the API and frontend share an origin — this also stops other websites from riding your server's API keys.
-- **Rate limiting** (20 requests/minute/IP on `/api/*`) caps abuse and caps your provider bill.
-- **`helmet`** sets standard hardening headers (`X-Frame-Options`, `X-Content-Type-Options`, etc.) and `X-Powered-By` is disabled.
+- **Input validation is a hard boundary, not a suggestion.** Every field is validated in `lib/validate.js` before it reaches a prompt or a calculation — free-text is length-capped, language and emission-factor fields are whitelisted against a closed set, not accepted as arbitrary numbers/strings. Verified by test: an out-of-whitelist `modeFactor` is rejected with 400, and an empty message never reaches the provider call at all.
+- **CORS is closed by default** (`origin: false`) since the API and frontend share an origin — this also stops other websites from riding your server's API keys. Verified by test: no `Access-Control-Allow-Origin` header is returned for a disallowed origin.
+- **Rate limiting** (20 requests/minute/IP on `/api/*`) caps abuse and caps your provider bill — verified by test that the configured max trips a 429.
+- **`helmet`** sets standard hardening headers (`X-Frame-Options`, `X-Content-Type-Options`, etc.) and `X-Powered-By` is disabled — verified by test.
 - **No error leakage.** Upstream provider error bodies and stack traces are logged server-side only; the client gets a generic, safe message.
 - Request bodies are capped at 20kb and outbound provider calls have a 15s timeout, so a slow/hung fetch can't tie up the server.
 
 ## Efficiency
-- Server-side deterministic math (carbon footprint) is computed once, cheaply, in plain JS — no AI call wasted on arithmetic; the AI is used only for the part that actually needs generation (the personal note).
-- Static assets served directly by Express; no build step or bundler needed for this scale.
+- **Compression**: `compression()` middleware gzips/brotlis every response — verified a `style.css` response drops from serving with `Content-Length: 7698` uncompressed to a gzip-encoded response on a real GET request.
+- **Static asset caching**: `express.static` now sets `Cache-Control: public, max-age=3600` with ETags, so repeat visits skip re-downloading unchanged CSS/JS instead of hitting the server every time.
+- Server-side deterministic math (carbon footprint) is computed once, cheaply, in plain JS — no AI call wasted on arithmetic; the AI is used only for the part that actually needs generation (the personal note). Verified in tests that the AI provider is not called until after validation passes.
 - Rate limiting doubles as a cost control, capping unnecessary provider spend.
+- Outbound provider calls have a 15s timeout so a slow/hung fetch can't tie up a request indefinitely.
 
 ## Testing
-- `npm test` runs 23 unit tests (Node's built-in test runner, no extra dependency) covering the validation layer (the security boundary) and the model-output parsing logic — boundary values, rejection paths, and malformed/malicious input are all exercised.
-- Manually verified end-to-end: empty/oversized input, an out-of-whitelist factor, a missing-key 503, an unknown route 404, and the rate limiter tripping at request 21.
+- **28 tests total**, `node --test`, zero extra test dependencies:
+  - `test/validate.test.js` — unit tests on the validation boundary (empty/oversized/malformed/malicious input, whitelist enforcement).
+  - `test/providers.test.js` — unit tests on model-output parsing.
+  - `test/app.test.js` — **integration tests against the real Express app**: spins up `createApp()` on an ephemeral local port per test, mocks only the outbound provider HTTP calls (Groq/Cohere), and asserts on real HTTP responses — status codes, JSON bodies, headers, and behavior. Covers: health check, validation short-circuiting *before* any provider call is made, successful response parsing, missing-key 503, deterministic footprint math, whitelist rejection, 404 handling, rate-limit 429 at the configured threshold, security headers present, and CORS header absence for a disallowed origin.
+- All 28 tests pass on a clean run; also manually verified with a real server boot (not mocked) that health, compression, and validation all work end-to-end.
 
 ## Accessibility
 - Semantic landmarks (`<nav>`, `<main>`, `<footer>`), a visible skip-to-content link, and a logical heading order.

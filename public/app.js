@@ -1,8 +1,13 @@
+// ---- backend location ----
+// Set via API_BASE_URL environment variable (see scripts/generate-config.js
+// and README.md) — do not hardcode a URL here.
+const API_BASE = window.API_BASE || '';
+
 // ---- server health check ----
 async function checkHealth(){
   const strip = document.getElementById('statusStrip');
   try{
-    const res = await fetch('/api/health');
+    const res = await fetch(API_BASE + '/api/health');
     const data = await res.json();
     if(data.groq && data.cohere){
       strip.textContent = 'All systems operational';
@@ -17,6 +22,7 @@ async function checkHealth(){
   }
 }
 checkHealth();
+
 
 // ---- tabs (ARIA tablist pattern: click + arrow-key navigation) ----
 const tabButtons = Array.from(document.querySelectorAll('.tab'));
@@ -65,8 +71,8 @@ function highlightAgents(ids){
   }, 4000);
 }
 
-async function postJSON(url, body){
-  const res = await fetch(url, {
+async function postJSON(path, body){
+  const res = await fetch(API_BASE + path, {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify(body)

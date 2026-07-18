@@ -7,12 +7,14 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "build": "node scripts/generate-config.js"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
+    "compression": "^1.8.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
