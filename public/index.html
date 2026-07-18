@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORION — Venue Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <nav class="topnav" aria-label="Primary">
+    <div class="wrap navwrap">
+      <div class="brand">ORION</div>
+      <div class="navlinks">
+        <a href="#platform">Platform</a>
+        <a href="#demo">Live demo</a>
+        <a href="#contact" class="navcta">Request a demo</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content">
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Venue intelligence platform</div>
+      <h1>The operations brain for major sporting venues</h1>
+      <p class="sub">ORION gives fans, volunteers and control-room staff one place to ask, coordinate and decide — in real time. Navigation, crowd flow, accessibility, transport and sustainability, unified into a single intelligent assistant.</p>
+      <div class="hero-actions">
+        <a href="#demo" class="btn-primary">Try the live demo</a>
+        <div class="status-strip" id="statusStrip" role="status" aria-live="polite">checking system status…</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="platform" id="platform">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">How it works</div>
+        <h2>One assistant, six specialties</h2>
+        <p class="sub">Every question — from a fan, a volunteer, or a steward in the control room — is understood and routed automatically to the right specialist, then answered as a single, coherent voice.</p>
+      </div>
+
+      <div class="sky" aria-hidden="true">
+        <svg viewBox="0 0 940 90" id="skySvg" focusable="false">
+          <title>Six specialties connected to a central assistant</title>
+          <line x1="470" y1="20" x2="180" y2="70" stroke="#DDE2EA" stroke-width="1"/>
+          <line x1="470" y1="20" x2="360" y2="70" stroke="#DDE2EA" stroke-width="1"/>
+          <line x1="470" y1="20" x2="470" y2="70" stroke="#DDE2EA" stroke-width="1"/>
+          <line x1="470" y1="20" x2="580" y2="70" stroke="#DDE2EA" stroke-width="1"/>
+          <line x1="470" y1="20" x2="760" y2="70" stroke="#DDE2EA" stroke-width="1"/>
+          <line x1="470" y1="20" x2="850" y2="70" stroke="#DDE2EA" stroke-width="1"/>
+          <circle cx="470" cy="20" r="5" fill="#1B4B91" id="star-core"/>
+          <text x="470" y="10" text-anchor="middle" class="star-label active">ORION</text>
+          <g id="star-polaris"><circle cx="180" cy="70" r="3.5" fill="#C98A2C"/><text x="180" y="86" text-anchor="middle" class="star-label">wayfinding</text></g>
+          <g id="star-rigel"><circle cx="360" cy="70" r="3.5" fill="#C98A2C"/><text x="360" y="86" text-anchor="middle" class="star-label">crowd flow</text></g>
+          <g id="star-cassiopeia"><circle cx="470" cy="70" r="3.5" fill="#C98A2C"/><text x="470" y="86" text-anchor="middle" class="star-label">languages</text></g>
+          <g id="star-vega"><circle cx="580" cy="70" r="3.5" fill="#C98A2C"/><text x="580" y="86" text-anchor="middle" class="star-label">accessibility</text></g>
+          <g id="star-atlas"><circle cx="760" cy="70" r="3.5" fill="#C98A2C"/><text x="760" y="86" text-anchor="middle" class="star-label">transport</text></g>
+          <g id="star-lyra"><circle cx="850" cy="70" r="3.5" fill="#C98A2C"/><text x="850" y="86" text-anchor="middle" class="star-label">sustainability</text></g>
+        </svg>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature"><h4>Wayfinding</h4><p>Personalized routes through gates, concourses and seating, generated for the fan in front of you.</p></div>
+        <div class="feature"><h4>Crowd flow</h4><p>Short-horizon congestion forecasts, written in plain language before a bottleneck forms.</p></div>
+        <div class="feature"><h4>Languages</h4><p>Natural, culturally-aware answers in dozens of languages — not literal translation.</p></div>
+        <div class="feature"><h4>Accessibility</h4><p>Step-free routes and sensory guidance tailored to each visitor's needs.</p></div>
+        <div class="feature"><h4>Transport</h4><p>Last-mile planning and dispersal guidance that keeps egress calm and fast.</p></div>
+        <div class="feature"><h4>Sustainability</h4><p>A live footprint reading for every journey, with a nudge toward the lighter option.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo" id="demo">
+  <div class="wrap">
+  <div class="section-head">
+    <div class="eyebrow">Live demo</div>
+    <h2>See it in action</h2>
+    <p class="sub">This is a real, working instance of the platform — every response below is generated live, not scripted.</p>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="ORION live demo sections">
+    <button class="tab active" role="tab" id="tab-chat" aria-controls="panel-chat" aria-selected="true" data-tab="chat">Ask ORION</button>
+    <button class="tab" role="tab" id="tab-lang" aria-controls="panel-lang" aria-selected="false" tabindex="-1" data-tab="lang">Multilingual assistant</button>
+    <button class="tab" role="tab" id="tab-control" aria-controls="panel-control" aria-selected="false" tabindex="-1" data-tab="control">Control room co-pilot</button>
+    <button class="tab" role="tab" id="tab-sustain" aria-controls="panel-sustain" aria-selected="false" tabindex="-1" data-tab="sustain">Sustainability receipt</button>
+  </div>
+
+  <!-- CHAT -->
+  <div class="panel active" id="panel-chat" role="tabpanel" aria-labelledby="tab-chat" tabindex="0">
+    <div class="card">
+      <h3>Ask the venue anything</h3>
+      <p class="hint">One box. Any question a fan, volunteer, or steward might ask — navigation, accessibility, transit, crowd conditions. ORION reads it, decides which specialties apply, and answers as one voice.</p>
+      <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="Conversation with ORION"></div>
+      <div class="composer">
+        <label class="sr-only" for="chatInput">Your question for ORION</label>
+        <textarea id="chatInput" aria-label="Your question for ORION" placeholder="e.g. I'm in a wheelchair, don't speak English, and my train leaves in 40 minutes — how do I get out of here?"></textarea>
+        <button class="go" id="chatSend">Ask</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MULTILINGUAL -->
+  <div class="panel" id="panel-lang" role="tabpanel" aria-labelledby="tab-lang" tabindex="0" hidden>
+    <div class="card">
+      <h3>Culturally-aware multilingual assistant</h3>
+      <p class="hint">Type a fan's question in any language, pick the language to answer in. Every reply is generated live, not machine-translated.</p>
+      <div class="row two">
+        <div>
+          <label class="field-label" for="langInput">Fan's question</label>
+          <textarea id="langInput" aria-required="true" style="min-height:80px" placeholder="Onde fica a fila para o chopp perto do portão 12?"></textarea>
+        </div>
+        <div>
+          <label class="field-label" for="langTarget">Answer in</label>
+          <select id="langTarget">
+            <option>English</option>
+            <option selected>Portuguese</option>
+            <option>Spanish</option>
+            <option>Korean</option>
+            <option>Japanese</option>
+            <option>Arabic</option>
+            <option>French</option>
+            <option>Hindi</option>
+            <option>Mandarin Chinese</option>
+            <option>German</option>
+          </select>
+        </div>
+      </div>
+      <button class="go" id="langSend">Translate &amp; answer</button>
+      <div class="out empty" id="langOut">Cassiopeia's answer will appear here.</div>
+    </div>
+  </div>
+
+  <!-- CONTROL ROOM -->
+  <div class="panel" id="panel-control" role="tabpanel" aria-labelledby="tab-control" tabindex="0" hidden>
+    <div class="card">
+      <h3>Control room "what if" simulator</h3>
+      <p class="hint">Describe an operational change. Get a plain-language crowd-risk read before you make the call, not after.</p>
+      <label class="sr-only" for="controlInput">Describe the operational change</label>
+      <textarea id="controlInput" aria-label="Describe the operational change" style="min-height:80px" placeholder="e.g. What if we open Gate 9 twenty minutes early and close the north escalator for maintenance at half-time?"></textarea>
+      <button class="go" id="controlSend" style="margin-top:12px">Run simulation</button>
+      <div class="out empty" id="controlOut">Simulated risk summary will appear here.</div>
+    </div>
+  </div>
+
+  <!-- SUSTAINABILITY -->
+  <div class="panel" id="panel-sustain" role="tabpanel" aria-labelledby="tab-sustain" tabindex="0" hidden>
+    <div class="card">
+      <h3>Live carbon receipt</h3>
+      <p class="hint">Fill in a fan's matchday journey. ORION computes the footprint and generates a short, personal note.</p>
+      <div class="row three">
+        <div>
+          <label class="field-label" for="sMode">Travel mode</label>
+          <select id="sMode">
+            <option value="0.192">Private car (solo)</option>
+            <option value="0.096">Ride-share (pooled)</option>
+            <option value="0.105">Bus</option>
+            <option value="0.041" selected>Metro / rail</option>
+            <option value="0">Walk / bike</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="sDist">Distance (km)</label>
+          <input type="number" id="sDist" value="14" min="0">
+        </div>
+        <div>
+          <label class="field-label" for="sFood">Food/drink choice</label>
+          <select id="sFood">
+            <option value="0.2">Meat-heavy stadium meal</option>
+            <option value="0.08" selected>Mixed meal</option>
+            <option value="0.03">Plant-based meal</option>
+          </select>
+        </div>
+      </div>
+      <button class="go" id="sustainSend">Generate receipt</button>
+      <div class="out empty" id="sustainOut">
+        <p class="receipt-num" id="sNum">—</p>
+        <span class="receipt-unit">kg CO₂e for this matchday journey</span>
+        <div id="sMsg" style="margin-top:12px;color:var(--text-2)"></div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  </section>
+  </main>
+
+  <footer id="contact">
+    <div class="wrap footer-inner">
+      <div class="brand">ORION</div>
+      <p>Independent venue intelligence platform for stadiums, arenas and large-scale events.</p>
+      <p class="copyright">© 2026 ORION. All rights reserved.</p>
+    </div>
+  </footer>
+
+<script src="/app.js"></script>
+</body>
+</html>
