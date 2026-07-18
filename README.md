@@ -27,7 +27,7 @@ orion-prototype/
 │   └── prompts.js       system prompts, kept out of route handlers
 ├── test/                unit tests (node --test, no extra dependency)
 ├── package.json
-├── .env.example         copy to .env and fill in your keys
+├── .env
 ├── public/
 │   ├── index.html
 │   ├── style.css
@@ -41,10 +41,9 @@ orion-prototype/
 ```bash
 cd orion-prototype
 npm install
-cp .env.example .env
+cp .env
 ```
 
-Edit `.env`:
 
 ```
 GROQ_API_KEY=gsk_your_real_key
