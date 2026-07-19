@@ -5,7 +5,8 @@
 - Repeated `try/catch/next` boilerplate across four routes was replaced with a single `asyncRoute()` wrapper.
 - Provider calls (`lib/providers.js`), validation (`lib/validate.js`), and prompts (`lib/prompts.js`) are each isolated in their own module with a single responsibility.
 - `PORT` is validated at startup and the process exits with a clear message on a bad value, instead of failing silently or crashing deep inside Express.
-- JSDoc comments on the app factory and its config shape document the public surface without needing a separate API doc.
+- **Static analysis, not just style opinions**: `npm run lint` (ESLint 9, flat config) and `npm run typecheck` (TypeScript in `checkJs` mode over the backend via JSDoc — no build step, no `.ts` files) both run clean with **zero errors**. `npm run verify` chains lint → typecheck → test in one command.
+- `LICENSE` (MIT) and complete `package.json` metadata (`description`, `license`, `engines`) included.
 
 ## Security
 - **Provider keys never leave the server.** They're read from `.env`, used only inside `lib/providers.js`, and are never sent to the browser or logged.

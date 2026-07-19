@@ -1,6 +1,8 @@
 {
   "name": "orion-stadium-genai",
   "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
   "description": "ORION — venue intelligence platform. GenAI-powered orchestration and multilingual assistance, provider keys loaded server-side.",
   "main": "server.js",
   "type": "commonjs",
@@ -8,7 +10,10 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "test": "node --test test/*.test.js",
-    "build": "node scripts/generate-config.js"
+    "build": "node scripts/generate-config.js",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "verify": "npm run lint && npm run typecheck && npm test"
   },
   "engines": {
     "node": ">=18"
@@ -20,5 +25,11 @@
     "express": "^4.19.2",
     "express-rate-limit": "^8.6.0",
     "helmet": "^8.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^26.1.1",
+    "eslint": "^9.39.5",
+    "typescript": "^7.0.2"
   }
 }

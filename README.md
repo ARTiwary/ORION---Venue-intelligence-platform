@@ -33,8 +33,11 @@ orion-prototype/
 │   ├── providers.test.js   model-output parsing
 │   └── validate.test.js    validation boundary
 ├── package.json
+├── eslint.config.js      lint rules (npm run lint)
+├── tsconfig.json         JSDoc-based type checking, no build step (npm run typecheck)
+├── LICENSE
 ├── vercel.json           tells Vercel to run the build step and serve public/
-├── .env
+├── .env                  fill in your keys
 ├── public/
 │   ├── index.html
 │   ├── style.css
@@ -52,9 +55,11 @@ npm install
 cp .env
 ```
 
+Edit `.env`:
+
 ```
-GROQ_API_KEY=key
-COHERE_API_KEY=key
+GROQ_API_KEY=gsk_your_real_key
+COHERE_API_KEY=your_real_key
 ```
 
 Run it:
@@ -67,6 +72,12 @@ Run the test suite:
 
 ```bash
 npm test
+```
+
+Run lint + typecheck + tests together:
+
+```bash
+npm run verify
 ```
 
 Open **http://localhost:3000**. The status strip under the title tells you
